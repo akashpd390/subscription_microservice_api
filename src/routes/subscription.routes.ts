@@ -1,7 +1,6 @@
-
 import { Router } from 'express';
 import { createSubscription, getSubscription, updateSubscription, cancelSubscription, getAllSubscriptions } from '../controller/subscription.conroller';
-import { authMiddleware } from '../middlewares/auth.middleware';
+// import { authMiddleware } from '../middlewares/auth.middleware';
 
 const subscriptionRouter = Router();
 
@@ -12,8 +11,6 @@ const subscriptionRouter = Router();
  *     summary: Create a new subscription
  *     description: Create a new subscription for the current user.
  *     tags: [Subscriptions]
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -24,8 +21,12 @@ const subscriptionRouter = Router();
  *               planId:
  *                 type: string
  *                 description: The ID of the plan to subscribe to.
+ *               userId:
+ *                 type: string
+ *                 description: The ID of the user subscribing to the plan.
  *             required:
  *               - planId
+ *               - userId
  *     responses:
  *       200:
  *         description: Subscription created successfully
@@ -34,18 +35,22 @@ const subscriptionRouter = Router();
  *       500:
  *         description: Internal Server Error
  */
-
-subscriptionRouter.post('/subscriptions', authMiddleware ,createSubscription);
+subscriptionRouter.post('/subscriptions', createSubscription);
 
 /**
  * @swagger
- * /subscriptions:
+ * /subscriptions/{userId}:
  *   get:
- *     summary: Get user subscriptions details
- *     description: Fetch the current user's subscription details.
+ *     summary: Get user subscription details
+ *     description: Fetch the subscription details for a specific user.
  *     tags: [Subscriptions]
- *     security:
- *      - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user whose subscription details are to be fetched.
  *     responses:
  *       200:
  *         description: Successfully fetched subscription
@@ -54,19 +59,22 @@ subscriptionRouter.post('/subscriptions', authMiddleware ,createSubscription);
  *       500:
  *         description: Internal Server Error
  */
-
-subscriptionRouter.get('/subscriptions', authMiddleware ,getSubscription);
-
+subscriptionRouter.get('/subscriptions/:userId', getSubscription);
 
 /**
  * @swagger
- * /subscriptions:
+ * /subscriptions/{userId}:
  *   put:
- *     summary: Create a new subscription
- *     description: Create a new subscription for the current user.
+ *     summary: Update a user subscription
+ *     description: Update the subscription for a specific user.
  *     tags: [Subscriptions]
- *     security:
- *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user whose subscription is to be updated.
  *     requestBody:
  *       required: true
  *       content:
@@ -76,59 +84,56 @@ subscriptionRouter.get('/subscriptions', authMiddleware ,getSubscription);
  *             properties:
  *               planId:
  *                 type: string
- *                 description: The ID of the plan to subscribe to.
+ *                 description: The ID of the new subscription plan.
  *             required:
  *               - planId
  *     responses:
  *       200:
- *         description: Subscription update successfully
+ *         description: Subscription updated successfully
  *       401:
  *         description: Unauthorized - Missing or invalid token
  *       500:
  *         description: Internal Server Error
  */
-
-subscriptionRouter.put('/subscriptions', authMiddleware, updateSubscription);
-
+subscriptionRouter.put('/subscriptions/:userId', updateSubscription);
 
 /**
  * @swagger
- * /subscriptions:
+ * /subscriptions/{userId}:
  *   delete:
  *     summary: Cancel the subscription
- *     description: Cancel the subscription.
+ *     description: Cancel the subscription for a specific user.
  *     tags: [Subscriptions]
- *     security:
- *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user whose subscription is to be canceled.
  *     responses:
  *       200:
- *         description: Subscription cancel successfully
+ *         description: Subscription canceled successfully
  *       401:
  *         description: Unauthorized - Missing or invalid token
  *       500:
  *         description: Internal Server Error
  */
+subscriptionRouter.delete('/subscriptions/:userId', cancelSubscription);
 
-subscriptionRouter.delete('/subscriptions', authMiddleware ,cancelSubscription);
-
-
-// TODO will be deleted only for testing purposes
 /**
  * @swagger
- * /subscriptions/all:
+ * /all:
  *   get:
- *     summary: Get all subscription plans
- *     description: Fetch all available subscription plans that user made from client site. it is only for testing purpose. can be deleted in production.
+ *     summary: Get all subscription plans (testing only)
+ *     description: Fetch all subscriptions for testing purposes. This should be removed in production.
  *     tags: [Subscriptions]
  *     responses:
  *       200:
- *         description: Successfully fetched plans
+ *         description: Successfully fetched subscriptions
  *       500:
  *         description: Internal Server Error
  */
-subscriptionRouter.get('/subscriptions/all', getAllSubscriptions)
-
-
+subscriptionRouter.get('/all', getAllSubscriptions);
 
 export { subscriptionRouter };
-

@@ -9,20 +9,6 @@ export const swaggerOptions: swaggerJSDoc.Options = {
       version: '1.0.0',
       description: 'API documentation for Subscription microservice',
     },
-    components:{
-        securitySchemes: {
-            bearerAuth: {
-            type: 'http',
-            scheme: 'bearer',
-            bearerFormat: 'JWT',
-            }
-        },
-    },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
     servers: [
       {
         url: 'https://subscription-api-hspi.onrender.com/api', 

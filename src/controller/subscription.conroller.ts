@@ -3,16 +3,17 @@ import { Plan } from '../models/plans.model';
 import { Subscription } from '../models/subscription.model';
 import SubscriptionsStatus from '../types/subscriptionsStatus.types';
 
-interface AuthenticatedRequest extends Request {
-  userId?: string;
+type RequestParams = {
+  userId : string;
 }
+
 
 // create new subscriptions
 
-const createSubscription = async (req: AuthenticatedRequest, res: Response) => {
+const createSubscription = async (req: Request, res: Response) => {
   try {
-    const userId = req.userId; //  middleware will set this
-    const { planId } = req.body;
+ 
+    const { userId, planId } = req.body;
 
 
     // TODO remove this 
@@ -66,9 +67,9 @@ const createSubscription = async (req: AuthenticatedRequest, res: Response) => {
 
 // get user subscriptions details
 
-const getSubscription = async (req: AuthenticatedRequest, res: Response) => {
+const getSubscription = async (req: Request<RequestParams>, res: Response) => {
   try {
-    const userId = req.userId;
+    const userId = req.params.userId;
 
     if (!userId) {
       res.status(401).json({ message: 'Unauthorized' });
@@ -92,10 +93,10 @@ const getSubscription = async (req: AuthenticatedRequest, res: Response) => {
 
 // update subscriptions
 
-const updateSubscription = async (req: AuthenticatedRequest, res: Response) => {
+const updateSubscription = async (req: Request<RequestParams>, res: Response) => {
 
   try {
-    const userId = req.userId;
+    const userId = req.params.userId;
     const { planId } = req.body;
 
     if (!userId) {
@@ -143,10 +144,10 @@ const updateSubscription = async (req: AuthenticatedRequest, res: Response) => {
 
 // cancel subscriptions
 
-const cancelSubscription = async (req: AuthenticatedRequest, res: Response) => {
+const cancelSubscription = async (req: Request<RequestParams>, res: Response) => {
 
   try {
-    const userId = req.userId;
+    const userId = req.params.userId;
 
     if (!userId) {
       res.status(401).json({ message: 'Unauthorized' });
@@ -184,7 +185,7 @@ const getAllSubscriptions = async (req: Request, res: Response) => {
     res.status(200).json(subscriptions);
 
   } catch (error) {
-    
+    res.status(500).json({ message: 'Server error', error });
   }
 
  };
