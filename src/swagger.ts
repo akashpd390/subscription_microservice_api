@@ -25,7 +25,7 @@ export const swaggerOptions: swaggerJSDoc.Options = {
     ],
     servers: [
       {
-        url: 'http://localhost:3000/api', 
+        url: 'https://subscription-api-hspi.onrender.com/api', 
       },
     ],
   },
