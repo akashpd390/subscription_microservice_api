@@ -26,7 +26,28 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.get('/', (_req, res) => {
-  res.send('/api-docs for the swagger documentation \n /api/plans for the plans \n /api/subscriptions for the subscriptions');
+  res.send(`
+    <h1> Subscriptions API</h1>
+      <p>Welcome to the Subscriptions API. Below are the available endpoints:</p>
+      
+      <div class="endpoint">
+        <strong>Swagger Documentation:</strong><br />
+        <a href="/api-docs" target="_blank">/api-docs</a>
+      </div>
+      
+      <div class="endpoint">
+        <strong> Plans Endpoint:</strong><br />
+        <a href="/api/plans" target="_blank">/api/plans</a>
+      </div>
+
+      <div class="endpoint">
+        <strong> Subscriptions Endpoint:</strong><br />
+        <a href="/api/subscriptions" target="_blank">/api/subscriptions</a>
+      </div>
+
+      <p>Use Swagger to test requests and explore schemas. Happy coding! 🎉</p>
+  `
+  );
 });
 
 export default app;
