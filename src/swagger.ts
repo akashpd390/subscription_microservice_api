@@ -1,0 +1,35 @@
+
+import swaggerJSDoc from 'swagger-jsdoc';
+
+export const swaggerOptions: swaggerJSDoc.Options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Subscription API',
+      version: '1.0.0',
+      description: 'API documentation for Subscription microservice',
+    },
+    components:{
+        securitySchemes: {
+            bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+            }
+        },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+    servers: [
+      {
+        url: 'http://localhost:3000/api', 
+      },
+    ],
+  },
+  apis: ['./src/routes/*.ts', './src/controller/*.ts'],
+};
+
+export const swaggerSpec = swaggerJSDoc(swaggerOptions);
