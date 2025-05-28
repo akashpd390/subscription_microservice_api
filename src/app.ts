@@ -26,7 +26,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.get('/', (_req, res) => {
-  res.send('Hello from Express + TypeScript!');
+  res.send('/api-docs for the swagger documentation \n /api/plans for the plans \n /api/subscriptions for the subscriptions');
 });
 
 export default app;
