@@ -45,7 +45,7 @@ app.get('/', (_req, res) => {
         <a href="/api/subscriptions" target="_blank">/api/subscriptions</a>
       </div>
 
-      <p>Use Swagger to test requests and explore schemas. Happy coding! 🎉</p>
+      <p>Use Swagger to test requests and explore schemas</p>
   `
   );
 });
