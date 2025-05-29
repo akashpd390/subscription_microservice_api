@@ -6,7 +6,7 @@ import SubscriptionsStatus from '../types/subscriptionsStatus.types';
 
 const SubscriptionSchema = new mongoose.Schema({
   userId: { 
-    type: Number, 
+    type: String, 
     required: true 
   },
   planId: { 
